@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{B23697FF-9280-4E41-8C20-2A58D9EB58A3}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="BuscarCep.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\Delphi\PDV.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BuscarCep">
+        <MSBuild Projects="BuscarCep.dproj"/>
+    </Target>
+    <Target Name="BuscarCep:Clean">
+        <MSBuild Projects="BuscarCep.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BuscarCep:Make">
+        <MSBuild Projects="BuscarCep.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="PDV">
+        <MSBuild Projects="..\Delphi\PDV.dproj"/>
+    </Target>
+    <Target Name="PDV:Clean">
+        <MSBuild Projects="..\Delphi\PDV.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PDV:Make">
+        <MSBuild Projects="..\Delphi\PDV.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BuscarCep;PDV"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BuscarCep:Clean;PDV:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BuscarCep:Make;PDV:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

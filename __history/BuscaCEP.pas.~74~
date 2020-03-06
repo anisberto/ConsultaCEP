@@ -1,0 +1,99 @@
+unit BuscaCEP;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, Vcl.StdCtrls, REST.Client,
+  Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.OleCtrls, SHDocVw, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.UI.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
+  FireDAC.VCLUI.Wait, Vcl.Mask;
+
+type
+  TForm1 = class(TForm)
+    Label1: TLabel;
+    btnBuscar: TSpeedButton;
+    edtCEP: TMaskEdit;
+    edtCidade: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtRua: TEdit;
+    edtBairro: TEdit;
+    Label4: TLabel;
+    Label5: TLabel;
+    btnSalvar: TSpeedButton;
+    edtUF: TEdit;
+    Label6: TLabel;
+    edtCe: TMaskEdit;
+    procedure btnBuscarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure associarCompos;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+Uses System.JSON, DataModuloCep;
+{$R *.dfm}
+
+procedure TForm1.associarCompos;
+begin
+  mdCep.FDTable.FieldByName('cep').Value := edtCe.Text;
+end;
+
+procedure TForm1.btnBuscarClick(Sender: TObject);
+var
+  Objeto: TJSONObject;
+  estado: string;
+
+begin
+
+  edtCEP.SetFocus;
+  mdCep.RESTRequest.Params.AddUrlSegment('CEP', edtCEP.Text);
+  mdCep.RESTRequest.Execute;
+
+  Objeto := mdCep.RESTResponse.JSONValue as TJSONObject;
+  edtCe.Text := Objeto.GetValue('cep').Value;
+  edtUF.Text := Objeto.GetValue('uf').Value;
+  edtBairro.Text := Objeto.GetValue('bairro').Value;
+  edtRua.Text := Objeto.GetValue('logradouro').Value;
+  edtCidade.Text := Objeto.GetValue('localidade').Value;
+  // ShowMessage(Objeto.ToJSON);
+
+  if edtCidade.Text <> '' then
+  begin
+    edtCEP.Text := '';
+  end;
+
+end;
+
+procedure TForm1.btnSalvarClick(Sender: TObject);
+begin
+  mdCep.FDTable.Insert;
+  associarCompos;
+  mdCep.QueryCEP.Close;
+  mdCep.QueryCEP.SQL.Clear;
+
+  // Incluindo itens no banco
+  mdCep.FDTable.Post;
+  MessageDlg('Salvo com Sucesso', mtInformation, mbOkCancel, 0);
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  edtCEP.SetFocus;
+end;
+
+end.

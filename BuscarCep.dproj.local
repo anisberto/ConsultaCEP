@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
-  <Transactions>
-    <Transaction>2020/02/29 19:42:29.434,=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2020/02/29 19:45:16.569,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.pas=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>2020/02/29 19:45:16.569,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.dfm=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
-    <Transaction>2020/02/29 19:45:42.036,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscaCEP.pas=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.pas</Transaction>
-    <Transaction>2020/02/29 19:45:42.036,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscaCEP.dfm=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.dfm</Transaction>
-    <Transaction>2020/02/29 22:52:58.779,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscarCep.dproj=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+	<Transactions>
+    <Transaction>2020/02/29 19:42:29.000.434,=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2020/02/29 19:45:16.000.569,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.pas</Transaction>
+    <Transaction>2020/02/29 19:45:16.000.569,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.dfm</Transaction>
+    <Transaction>2020/02/29 19:45:42.000.036,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.pas=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscaCEP.pas</Transaction>
+    <Transaction>2020/02/29 19:45:42.000.036,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\BuscaCEP.dfm=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscaCEP.dfm</Transaction>
+    <Transaction>2020/02/29 22:52:58.000.779,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\BuscarCep.dproj</Transaction>
+    <Transaction>2020/03/05 19:09:51.000.579,=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 19:11:28.000.775,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\DataModuloCep.pas=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\Unit1.pas</Transaction>
+    <Transaction>2020/03/05 19:11:28.000.775,C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\DataModuloCep.dfm=C:\Users\Anisb\Documents\Embarcadero\Studio\Projects\Busca CEP\Unit1.dfm</Transaction>
   </Transactions>
 </BorlandProject>

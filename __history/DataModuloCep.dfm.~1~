@@ -1,0 +1,62 @@
+object mdCep: TmdCep
+  OldCreateOrder = False
+  Height = 361
+  Width = 727
+  object RESTClient: TRESTClient
+    Params = <>
+    Left = 24
+    Top = 16
+  end
+  object RESTRequest: TRESTRequest
+    Client = RESTClient
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        Name = 'CEP'
+        Options = [poAutoCreated]
+      end>
+    Resource = '{CEP}/json/'
+    Response = RESTResponse
+    SynchronizedEvents = False
+    Left = 88
+    Top = 16
+  end
+  object RESTResponse: TRESTResponse
+    ContentType = 'text/html'
+    Left = 152
+    Top = 16
+  end
+  object DataCEP: TDataSource
+    DataSet = tbCEP
+    Left = 240
+    Top = 289
+  end
+  object QueryCEP: TFDQuery
+    Connection = fd
+    SQL.Strings = (
+      'select * from endereco')
+    Left = 320
+    Top = 289
+  end
+  object tbCEP: TFDTable
+    Connection = fd
+    ResourceOptions.AssignedValues = [rvPersistent]
+    ResourceOptions.Persistent = True
+    Left = 160
+    Top = 289
+  end
+  object fd: TFDConnection
+    Params.Strings = (
+      'Database=cep'
+      'User_Name=root'
+      'DriverID=MySQL')
+    LoginPrompt = False
+    Left = 632
+    Top = 297
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    VendorLib = 'D:\Arquivos\libmySQL.dll'
+    Left = 663
+    Top = 17
+  end
+end

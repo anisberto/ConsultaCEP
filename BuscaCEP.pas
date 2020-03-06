@@ -7,26 +7,40 @@ uses
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, REST.Types, Vcl.StdCtrls, REST.Client,
   Data.Bind.Components, Data.Bind.ObjectScope, Vcl.Buttons, Vcl.ExtCtrls,
-  Vcl.OleCtrls, SHDocVw;
+  Vcl.OleCtrls, SHDocVw, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.Client,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.UI.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Phys, FireDAC.Phys.MySQL, FireDAC.Phys.MySQLDef,
+  FireDAC.VCLUI.Wait, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, Vcl.Menus;
 
 type
   TForm1 = class(TForm)
-    RESTClient: TRESTClient;
-    RESTRequest: TRESTRequest;
-    RESTResponse: TRESTResponse;
-    memo: TMemo;
     Label1: TLabel;
     btnBuscar: TSpeedButton;
-    edtCEP: TEdit;
-    Panel1: TPanel;
-    OpenDialog1: TOpenDialog;
-    WebBrowser1: TWebBrowser;
+    edtCEP: TMaskEdit;
+    edtCidade: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtRua: TEdit;
+    edtBairro: TEdit;
+    Label4: TLabel;
+    Label5: TLabel;
+    btnSalvar: TSpeedButton;
+    edtUF: TEdit;
+    Label6: TLabel;
+    edtCe: TMaskEdit;
+    DBGrid1: TDBGrid;
     procedure btnBuscarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnSalvarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
+    procedure associarCompos;
+    procedure listarCompos;
   end;
 
 var
@@ -34,8 +48,16 @@ var
 
 implementation
 
-Uses System.JSON;
+Uses System.JSON, DataModuloCep;
 {$R *.dfm}
+
+procedure TForm1.associarCompos;
+begin
+  mdCep.FDTable.FieldByName('cep').Value := edtCe.Text;
+  mdCep.FDTable.FieldByName('estado').Value := edtUF.Text;
+  mdCep.FDTable.FieldByName('bairro').Value := edtBairro.Text;
+  mdCep.FDTable.FieldByName('cidade').Value := edtCidade.Text;
+end;
 
 procedure TForm1.btnBuscarClick(Sender: TObject);
 var
@@ -43,23 +65,54 @@ var
   estado: string;
 
 begin
-  edtCEP.SetFocus;
-  RESTRequest.Params.AddUrlSegment('CEP', edtCEP.Text);
-  RESTRequest.Execute;
-  memo.Lines.Clear;
 
-  Objeto := RESTResponse.JSONValue as TJSONObject;
-  memo.Text := 'CEP: ' + edtCEP.Text;
-  estado := ('Estado: ' + Objeto.GetValue('uf').Value);
-  memo.Lines.Add('Bairro: ' + Objeto.GetValue('bairro').Value);
-  memo.Lines.Add('Rua: ' + Objeto.GetValue('logradouro').Value);
-  memo.Lines.Add('Cidade: ' + Objeto.GetValue('localidade').Value + ' - ' + estado);
-  ShowMessage(Objeto.ToJSON);
+  edtCEP.SetFocus;
+  mdCep.RESTRequest.Params.AddUrlSegment('CEP', edtCEP.Text);
+  mdCep.RESTRequest.Execute;
+
+  Objeto := mdCep.RESTResponse.JSONValue as TJSONObject;
+  edtCe.Text := Objeto.GetValue('cep').Value;
+  edtUF.Text := Objeto.GetValue('uf').Value;
+  edtBairro.Text := Objeto.GetValue('bairro').Value;
+  edtRua.Text := Objeto.GetValue('logradouro').Value;
+  edtCidade.Text := Objeto.GetValue('localidade').Value;
+  // ShowMessage(Objeto.ToJSON);
+
+  if edtCidade.Text <> '' then
+  begin
+    edtCEP.Text := '';
+  end;
+
+end;
+
+procedure TForm1.btnSalvarClick(Sender: TObject);
+begin
+  mdCep.FDTable.Insert;
+  associarCompos;
+  mdCep.QueryCEP.SQL.Clear;
+
+  // Incluindo itens no banco
+  mdCep.FDTable.Post;
+  MessageDlg('Salvo com Sucesso', mtInformation, mbOkCancel, 0);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  listarCompos;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
-edtCEP.SetFocus;
+  edtCEP.SetFocus;
+  listarCompos;
+end;
+
+procedure TForm1.listarCompos;
+begin
+  mdCep.QueryCEP.Close;
+  mdCep.QueryCEP.SQL.Clear;
+  mdCep.QueryCEP.SQL.Add('SELECT * from endereco order by cidade asc');
+  mdCep.QueryCEP.Open;
 end;
 
 end.
